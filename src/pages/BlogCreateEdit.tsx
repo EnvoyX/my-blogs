@@ -1,4 +1,12 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { Blog } from "../type/Blog";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { blogSchema } from "../utils/validation";
+import { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { createBlog } from "../api/blogAPI";
+import { toast } from "react-toastify";
 
 type Props = {
   mode: "create" | "edit";
@@ -6,9 +14,83 @@ type Props = {
 
 const BlogCreateEdit = ({ mode }: Props) => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<Blog>({ resolver: zodResolver(blogSchema) });
+  useEffect(() => {}, []);
+
+  const onSubmit = async (data: Blog) => {
+    try {
+      if (mode === "create") {
+        const newBlog = {
+          ...data,
+          id: uuidv4(),
+          createdAt: new Date().toISOString(),
+        };
+        await createBlog(newBlog);
+        toast.success("Blog created successfully");
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error("Failed to submit Form");
+    }
+  };
   return (
-    <div>
-      Blog#${id} - {mode}
+    <div className="container mx-auto p-6 font-sans bg-gray-900 min-h-screen min-w-screen text-gray-200">
+      <h1 className="text-3xl font-bold text-gray-100 mb-6 border-b-2 border-gray-700 pb-2">
+        {mode === "create" ? "Create blog" : "Edit blog"}
+      </h1>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Title
+          </label>
+          <input
+            type="text"
+            {...register("title")}
+            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-gray-300 focus:outline-none focus:ring focus:ring-amber-500"
+          />
+          {errors.title && (
+            <p className="text-red-500 text-sm">{errors.title.message}</p>
+          )}
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Description
+          </label>
+          <input
+            type="text"
+            {...register("description")}
+            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-gray-300 focus:outline-none focus:ring focus:ring-amber-500"
+          />
+          {errors.description && (
+            <p className="text-red-500 text-sm">{errors.description.message}</p>
+          )}
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Image URL
+          </label>
+          <input
+            type="text"
+            {...register("image")}
+            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-gray-300 focus:outline-none focus:ring focus:ring-amber-500"
+          />
+          {errors.image && (
+            <p className="text-red-500 text-sm">{errors.image.message}</p>
+          )}
+        </div>
+        <button
+          className="bg-amber-500 hover:bg-amber-600 text-gray-900 font-semibold px-6 py-2 rounded-lg shadow-lg transition-all"
+          type="submit"
+        >
+          {mode === "create" ? "Create" : "Save Changes"}
+        </button>
+      </form>
     </div>
   );
 };

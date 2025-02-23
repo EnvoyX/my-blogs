@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import BlogList from "./pages/BlogList";
 import BlogCreateEdit from "./pages/BlogCreateEdit";
 import BlogDetail from "./pages/BlogDetail";
-
+import { ToastContainer } from "react-toastify";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,6 +25,18 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick={true}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       <RouterProvider router={router}></RouterProvider>
     </>
   );
