@@ -22,11 +22,11 @@
       "createdAt": "2024-11-16T10:00:00.000Z"
     },
     {
-      "id": "4",
-      "title": "The Journey of Creativity",
+      "title": "The Journey of Creativity of Something",
       "description": "Every artist has a journey, filled with moments of inspiration and challenges to overcome.",
       "image": "https://picsum.photos/500/300?random=4",
-      "createdAt": "2024-11-16T10:30:00.000Z"
+      "createdAt": "2024-11-16T10:30:00.000Z",
+      "id": "4"
     },
     {
       "id": "5",
@@ -64,11 +64,11 @@
       "createdAt": "2024-11-16T13:00:00.000Z"
     },
     {
-      "id": "10",
-      "title": "Street Art and Expression",
-      "description": "Street art represents more than just graffiti; it's a canvas for urban expression and individuality.",
+      "title": "Street Art and Expression ",
+      "description": "Street art represents more than just graffiti; it's a canvas for urban expression and individuality. And new experience",
       "image": "https://plus.unsplash.com/premium_photo-1673697240037-404e3567b9ca?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDY3fHx8ZW58MHx8fHx8",
-      "createdAt": "2024-11-16T13:30:00.000Z"
+      "createdAt": "2024-11-16T13:30:00.000Z",
+      "id": "10"
     }
   ]
 }

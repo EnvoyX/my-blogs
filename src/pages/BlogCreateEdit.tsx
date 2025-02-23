@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { blogSchema } from "../utils/validation";
 import { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { createBlog } from "../api/blogAPI";
+import { createBlog, fetchBlog, updateBlog } from "../api/blogAPI";
 import { toast } from "react-toastify";
 
 type Props = {
@@ -21,7 +21,23 @@ const BlogCreateEdit = ({ mode }: Props) => {
     setValue,
     formState: { errors },
   } = useForm<Blog>({ resolver: zodResolver(blogSchema) });
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const getBlog = async () => {
+      if (id && mode === "edit") {
+        try {
+          const data = await fetchBlog(id);
+          setValue("title", data.title);
+          setValue("description", data.description);
+          setValue("image", data.image);
+          setValue("createdAt", data.createdAt);
+        } catch (error: any) {
+          toast.error(error.message);
+          navigate("/");
+        }
+      }
+    };
+    getBlog();
+  }, [id, mode]);
 
   const onSubmit = async (data: Blog) => {
     try {
@@ -33,9 +49,13 @@ const BlogCreateEdit = ({ mode }: Props) => {
         };
         await createBlog(newBlog);
         toast.success("Blog created successfully");
-        navigate("/");
+      } else if (mode === "edit" && id) {
+        await updateBlog(id, data);
+        toast.success("Blog updated successfully");
       }
+      navigate("/");
     } catch (error) {
+      console.error(error);
       toast.error("Failed to submit Form");
     }
   };

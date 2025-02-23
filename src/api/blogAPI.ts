@@ -62,3 +62,20 @@ export const deleteBlog = async (id: string): Promise<void> => {
     throw new Error(error.message || "Failed to delete blog/resource.");
   }
 };
+
+// edit spesific blog
+export const updateBlog = async (id: string, blog: Blog): Promise<void> => {
+  try {
+    const response = await fetch(`${BASE_URL}/blogs/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(blog),
+    });
+    await checkResponse(response);
+  } catch (error: any) {
+    console.error(error);
+    throw new Error(error.message || "Failed to update blog");
+  }
+};
