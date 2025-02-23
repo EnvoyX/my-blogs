@@ -1,26 +1,70 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import BlogList from "./pages/BlogList";
-import BlogCreateEdit from "./pages/BlogCreateEdit";
-import BlogDetail from "./pages/BlogDetail";
-import { ToastContainer } from "react-toastify";
+import React from 'react';
+// import { Suspense } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+const BlogList = React.lazy(() => import('./pages/BlogList'));
+const BlogCreateEdit = React.lazy(() => import('./pages/BlogCreateEdit'));
+const BlogDetail = React.lazy(() => import('./pages/BlogDetail'));
+// const BlogListSkeleton = React.lazy(
+//   () => import('./components/BlogListSkeleton')
+// );
+// const BlogDetailSkeleton = React.lazy(
+//   () => import('./components/BlogDetailSkeleton')
+// );
+import { ToastContainer } from 'react-toastify';
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <BlogList></BlogList>,
   },
   {
-    path: "/create",
+    path: '/create',
     element: <BlogCreateEdit mode="create"></BlogCreateEdit>,
   },
   {
-    path: "/blog/:id",
+    path: '/blog/:id',
     element: <BlogDetail></BlogDetail>,
   },
   {
-    path: "/blog/:id/edit",
+    path: '/blog/:id/edit',
     element: <BlogCreateEdit mode="edit"></BlogCreateEdit>,
   },
 ]);
+// const router = createBrowserRouter([
+//   {
+//     path: '/',
+//     element: (
+//       <Suspense fallback={<BlogListSkeleton></BlogListSkeleton>}>
+//         <BlogList></BlogList>
+//       </Suspense>
+//     ),
+//   },
+//   {
+//     path: '/create',
+//     element: (
+//       <Suspense
+//         fallback={
+//           <h1 className="text-center text-3xl font-bold text-amber-300">
+//             Loading...
+//           </h1>
+//         }
+//       >
+//         <BlogCreateEdit mode="create"></BlogCreateEdit>
+//       </Suspense>
+//     ),
+//   },
+//   {
+//     path: '/blog/:id',
+//     element: (
+//       <Suspense fallback={<BlogDetailSkeleton></BlogDetailSkeleton>}>
+//         <BlogDetail></BlogDetail>
+//       </Suspense>
+//     ),
+//   },
+//   {
+//     path: '/blog/:id/edit',
+//     element: <BlogCreateEdit mode="edit"></BlogCreateEdit>,
+//   },
+// ]);
 
 function App() {
   return (

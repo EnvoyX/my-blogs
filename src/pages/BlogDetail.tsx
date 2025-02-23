@@ -1,10 +1,12 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Blog } from "../type/Blog";
-import { deleteBlog, fetchBlog } from "../api/blogAPI";
-import { toast } from "react-toastify";
-import BlogDetailSkeleton from "../components/BlogDetailSkeleton";
-import Modal from "../components/Modal";
+import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Blog } from '../type/Blog';
+import { deleteBlog, fetchBlog } from '../api/blogAPI';
+import { toast } from 'react-toastify';
+const BlogDetailSkeleton = React.lazy(
+  () => import('../components/BlogDetailSkeleton')
+);
+const Modal = React.lazy(() => import('../components/Modal'));
 
 const BlogDetail = () => {
   const { id } = useParams();
@@ -21,7 +23,7 @@ const BlogDetail = () => {
         }
       } catch (error: any) {
         toast.error(error.message);
-        navigate("/");
+        navigate('/');
       }
     };
     getBlog();
@@ -31,8 +33,8 @@ const BlogDetail = () => {
     if (id) {
       try {
         await deleteBlog(id);
-        toast.success("Successfully deleted the blog");
-        navigate("/");
+        toast.success('Successfully deleted the blog');
+        navigate('/');
       } catch (error: any) {
         console.error(error);
         toast.error(error.message);
@@ -46,7 +48,7 @@ const BlogDetail = () => {
       {/* Header Navigation */}
       <div className="flex items-center justify-between mb-8">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate('/')}
           className="bg-[#ffd900] hover:bg-[#bea201] text-gray-100 font-medium px-4 py-2 rounded shadow transition-all"
         >
           Back to Blog List
@@ -63,7 +65,7 @@ const BlogDetail = () => {
             <img
               src={blog.image}
               alt={blog.title}
-              className="w-full h-64 object-cover rounded mb-4"
+              className="w-full h-auto object-contain rounded mb-4"
             />
             <h1 className="text-3xl font-bold text-gray-100 mb-4">
               {blog.title}

@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
-import { Blog } from "../type/Blog";
-import { fetchBlogs } from "../api/blogAPI";
-import { Link } from "react-router-dom";
-import BlogCard from "../components/BlogCard";
-import BlogListSkeleton from "../components/BlogListSkeleton";
-
+import React, { useEffect, useState } from 'react';
+import { Blog } from '../type/Blog';
+import { fetchBlogs } from '../api/blogAPI';
+import { Link } from 'react-router-dom';
+const BlogCard = React.lazy(() => import('../components/BlogCard'));
+const BlogListSkeleton = React.lazy(
+  () => import('../components/BlogListSkeleton')
+);
 const BlogList = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   useEffect(() => {
     const getBlogs = async () => {
       try {
@@ -24,12 +25,12 @@ const BlogList = () => {
   }, []);
 
   const handleSort = () => {
-    setSortOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+    setSortOrder((prev) => (prev === 'asc' ? 'desc' : 'asc'));
 
     // Sort blogs state
     setBlogs((prev) =>
       [...prev].sort((a, b) =>
-        sortOrder === "asc"
+        sortOrder === 'asc'
           ? new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
           : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       )
@@ -47,7 +48,7 @@ const BlogList = () => {
             Latest blogs
           </h1>
           <Link
-            to={"/create"}
+            to={'/create'}
             className="bg-[#ffd700] hover:bg-[#bea201] text-black font-semibold px-6 py-2 rounded-lg shadow transition-all"
           >
             Create Blog
@@ -56,7 +57,7 @@ const BlogList = () => {
         {/* Sort Button */}
         <div className="flex justify-between items-center mb-6">
           <p className="text-gray-600">
-            Sort by Date: {sortOrder === "asc" ? "Ascending" : "Descending"}
+            Sort by Date: {sortOrder === 'asc' ? 'Ascending' : 'Descending'}
           </p>
           <button
             onClick={handleSort}
