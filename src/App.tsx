@@ -62,7 +62,17 @@ const router = createBrowserRouter([
 //   },
 //   {
 //     path: '/blog/:id/edit',
-//     element: <BlogCreateEdit mode="edit"></BlogCreateEdit>,
+//     element: (
+//       <Suspense
+//         fallback={
+//           <h1 className="text-center text-3xl font-bold text-amber-300">
+//             Loading...
+//           </h1>
+//         }
+//       >
+//         <BlogCreateEdit mode="create"></BlogCreateEdit>
+//       </Suspense>
+//     ),
 //   },
 // ]);
 
