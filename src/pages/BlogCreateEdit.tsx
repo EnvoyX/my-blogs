@@ -1,15 +1,15 @@
-import { useNavigate, useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { Blog } from "../type/Blog";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { blogSchema } from "../utils/validation";
-import { useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { createBlog, fetchBlog, updateBlog } from "../api/blogAPI";
-import { toast } from "react-toastify";
+import { useNavigate, useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { Blog } from '../type/Blog';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { blogSchema } from '../utils/validation';
+import { useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import { createBlog, fetchBlog, updateBlog } from '../api/blogAPI';
+import { toast } from 'react-toastify';
 
 type Props = {
-  mode: "create" | "edit";
+  mode: 'create' | 'edit';
 };
 
 const BlogCreateEdit = ({ mode }: Props) => {
@@ -19,20 +19,20 @@ const BlogCreateEdit = ({ mode }: Props) => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
-  } = useForm<Blog>({ resolver: zodResolver(blogSchema) });
+    // formState: { errors },
+  } = useForm<Blog | any>({ resolver: zodResolver(blogSchema) });
   useEffect(() => {
     const getBlog = async () => {
-      if (id && mode === "edit") {
+      if (id && mode === 'edit') {
         try {
           const data = await fetchBlog(id);
-          setValue("title", data.title);
-          setValue("description", data.description);
-          setValue("image", data.image);
-          setValue("createdAt", data.createdAt);
+          setValue('title', data.title);
+          setValue('description', data.description);
+          setValue('image', data.image);
+          setValue('createdAt', data.createdAt);
         } catch (error: any) {
           toast.error(error.message);
-          navigate("/");
+          navigate('/');
         }
       }
     };
@@ -41,28 +41,28 @@ const BlogCreateEdit = ({ mode }: Props) => {
 
   const onSubmit = async (data: Blog) => {
     try {
-      if (mode === "create") {
+      if (mode === 'create') {
         const newBlog = {
           ...data,
           id: uuidv4(),
           createdAt: new Date().toISOString(),
         };
         await createBlog(newBlog);
-        toast.success("Blog created successfully");
-      } else if (mode === "edit" && id) {
+        toast.success('Blog created successfully');
+      } else if (mode === 'edit' && id) {
         await updateBlog(id, data);
-        toast.success("Blog updated successfully");
+        toast.success('Blog updated successfully');
       }
-      navigate("/");
+      navigate('/');
     } catch (error) {
       console.error(error);
-      toast.error("Failed to submit Form");
+      toast.error('Failed to submit Form');
     }
   };
   return (
     <div className="container mx-auto p-6 font-sans bg-gray-900 min-h-screen min-w-screen text-gray-200">
       <h1 className="text-3xl font-bold text-gray-100 mb-6 border-b-2 border-gray-700 pb-2">
-        {mode === "create" ? "Create blog" : "Edit blog"}
+        {mode === 'create' ? 'Create blog' : 'Edit blog'}
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 ">
         <div>
@@ -71,12 +71,12 @@ const BlogCreateEdit = ({ mode }: Props) => {
           </label>
           <input
             type="text"
-            {...register("title")}
+            {...register('title')}
             className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-gray-300 focus:outline-none focus:ring focus:ring-amber-500"
           />
-          {errors.title && (
-            <p className="text-red-500 text-sm">{errors.title.message}</p>
-          )}
+          {/* {errors.title && (
+            <p className="text-red-500 text-sm">{errors.title}</p>
+          )} */}
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -84,12 +84,12 @@ const BlogCreateEdit = ({ mode }: Props) => {
           </label>
           <input
             type="text"
-            {...register("description")}
+            {...register('description')}
             className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-gray-300 focus:outline-none focus:ring focus:ring-amber-500"
           />
-          {errors.description && (
+          {/* {errors.description && (
             <p className="text-red-500 text-sm">{errors.description.message}</p>
-          )}
+          )} */}
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -97,18 +97,18 @@ const BlogCreateEdit = ({ mode }: Props) => {
           </label>
           <input
             type="text"
-            {...register("image")}
+            {...register('image')}
             className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-gray-300 focus:outline-none focus:ring focus:ring-amber-500"
           />
-          {errors.image && (
+          {/* {errors.image && (
             <p className="text-red-500 text-sm">{errors.image.message}</p>
-          )}
+          )} */}
         </div>
         <button
           className="bg-amber-500 hover:bg-amber-600 text-gray-900 font-semibold px-6 py-2 rounded-lg shadow-lg transition-all"
           type="submit"
         >
-          {mode === "create" ? "Create" : "Save Changes"}
+          {mode === 'create' ? 'Create' : 'Save Changes'}
         </button>
       </form>
     </div>
